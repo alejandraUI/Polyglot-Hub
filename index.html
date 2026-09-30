@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Polyglot Hub — Traducciones / Translations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#112233; --navy-2:#0F1B24;
+    --dark-green:#164B3B; 
+    --dark-green-hover:#0F362A;
+    --teal:#2A7A66; 
+    --mint:#A8E6CF; 
+    --bg-light:#F4F7F6; 
+    --paper:#FFFFFF;
+    --ink:#2C3935;
+    
+    --radius-cards: 16px; 
+    --radius-btn: 50px; 
+    
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top,0px);
+    padding-bottom: env(safe-area-inset-bottom,0px);
+  }
+  
+  html{scroll-padding-top: env(safe-area-inset-top,0px); scroll-behavior:smooth;}
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Roboto', system-ui, -apple-system, sans-serif;
+    line-height:1.6;
+    overflow-x: hidden;
+  }
+  
+  body.lang-es .en { display: none !important; }
+  body.lang-en .es { display: none !important; }
+
+  h1,h2,h3,.display{font-family:'Roboto', sans-serif; font-weight:700; color:var(--navy); line-height:1.2; margin:0;}
+  a{color:inherit;}
+  img{max-width:100%; height:auto;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+  button{font-family:inherit; cursor:pointer;}
+
+  /* ---- discount bar ---- */
+  #discountbar{
+    background:var(--dark-green); color:#FFF;
+    font-size:14px; text-align:center;
+    padding:12px 44px 12px 16px; position:relative;
+    font-weight: 500;
+  }
+  #discountbar b{color:var(--mint);}
+  #discountbar .close{
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:none; border:none; color:#FFF; font-size:20px;
+    line-height:1; padding:4px 8px; opacity:.8;
+  }
+  #discountbar .close:hover{opacity:1;}
+
+  /* ---- header ---- */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 28px; max-width:1180px; margin:0 auto;
+    background: #FFF;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand svg{width:38px; height:38px; flex:none;}
+  .brand-name{font-weight:900; font-size:24px; color:var(--navy); letter-spacing:-0.5px;}
+  .brand-sub{display:block; font-size:12px; color:var(--teal); font-weight:500; margin-top:-2px;}
+  nav{display:flex; gap:30px; font-size:15px; align-items: center; font-weight: 500;}
+  nav a{text-decoration:none; color:var(--ink); transition: color 0.2s;}
+  nav a:hover{color:var(--teal);}
+  
+  .lang-toggle {
+    background: var(--bg-light); border: none; color: var(--navy);
+    padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 13px;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .lang-toggle:hover { background: var(--teal); color: white; }
+
+  .nav-cta{
+    background:var(--dark-green); color:#fff; padding:10px 24px; border-radius:var(--radius-btn);
+    text-decoration:none; font-size:14px; font-weight:600; transition: 0.2s;
+  }
+  .nav-cta:hover{background:var(--dark-green-hover); transform: translateY(-1px);}
+  .navwrap{display:flex; align-items:center; gap:28px;}
+  
+  /* Botón hamburguesa con alto contraste */
+  #menuBtn{
+    display:none; 
+    background:var(--bg-light); 
+    color:var(--dark-green); 
+    border:2px solid var(--dark-green); 
+    border-radius:8px; 
+    width:44px; height:44px; 
+    font-size:22px; 
+    font-weight:bold; 
+    align-items:center; 
+    justify-content:center;
+  }
+
+  /* ---- mobile menu panel ---- */
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    gap:4px;
+    background:#FFF;
+    border-top:1px solid #EEE;
+    padding:16px 28px 20px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    text-decoration:none; color:var(--ink); font-size:16px; font-weight:500;
+    padding:12px 4px; border-bottom:1px solid #F0F0F0;
+  }
+  /* Botones del menú móvil que ocupan todo el ancho (mejor UX) */
+  .mobile-menu .nav-cta{
+    align-self:stretch; 
+    margin-top:16px; 
+    text-align:center;
+    padding: 12px;
+  }
+  .mobile-menu .lang-toggle{
+    align-self:stretch; 
+    margin-top:8px; 
+    padding: 10px;
+  }
+
+  /* ---- hero con animación Canvas ---- */
+  .hero{
+    background: var(--navy-2); 
+    color:#FFF; 
+    position:relative;
+    overflow:hidden;
+  }
+  
+  #heroCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    opacity: 0.5; 
+    pointer-events: none;
+  }
+
+  .hero-inner{
+    position: relative;
+    z-index: 2; 
+    max-width:900px; margin:0 auto; 
+    padding:90px 28px 100px;
+    text-align: center;
+  }
+  
+  .hero h1{
+    color: var(--mint); 
+    font-size:clamp(40px,5.5vw,64px); 
+    font-weight: 900;
+    margin: 0 auto;
+    letter-spacing: -1px;
+    text-shadow: 0px 4px 12px rgba(0,0,0,0.4);
+  }
+  .hero p.lede{font-size:clamp(16px, 2.5vw, 18px); color:#E0EAE5; margin:24px auto 0; font-weight: 400; text-shadow: 0px 2px 4px rgba(0,0,0,0.5); max-width: 700px;}
+  .hero-ctas{display:flex; gap:16px; margin-top:40px; flex-wrap:wrap; justify-content: center;}
+  
+  .btn-primary, .submit-btn {
+    background: #FFFFFF; 
+    color: var(--dark-green); 
+    border: 2px solid var(--dark-green);
+    padding: 12px 30px; 
+    border-radius: var(--radius-btn);
+    text-decoration: none; 
+    font-weight: 700; 
+    font-size: 15px; 
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-align: center;
+  }
+  .btn-primary:hover, .submit-btn:hover {
+    background: var(--dark-green);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(22, 75, 59, 0.3);
+  }
+  
+  .btn-ghost{
+    border:2px solid rgba(255,255,255,.65); color:#fff; padding:12px 30px; border-radius:var(--radius-btn);
+    text-decoration:none; font-weight: 600; font-size:15px;
+    background: rgba(0,0,0,0.25); backdrop-filter: blur(4px); transition: all 0.2s ease;
+    text-align: center;
+  }
+  .btn-ghost:hover{border-color:#fff; background: rgba(255,255,255,0.15);}
+
+  /* ---- section shell ---- */
+  section{padding:80px 0;}
+  .eyebrow-free h2{font-size:clamp(28px,4vw,42px); max-width:18ch; font-weight: 800; letter-spacing: -0.5px;}
+  .section-lede{color:#556660; max-width:60ch; margin-top:16px; font-size:16px;}
+  .section-head{margin-bottom:50px;}
+
+  /* ---- services ---- */
+  .services{background:var(--bg-light);}
+  
+  .services .section-head h2 {
+    color: var(--dark-green);
+    max-width: 100%; 
+  }
+
+  .service-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px; 
+    margin-top:20px;
+  }
+  .service{
+    background:#FFFFFF; 
+    padding:36px 30px;
+    border-radius:var(--radius-cards);
+    border: 2px solid var(--teal); 
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .service:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    border-color: var(--dark-green); 
+  }
+  .service .num{font-size:14px; font-weight:700; color:var(--teal); display:block; margin-bottom:12px; background: rgba(42, 122, 102, 0.1); padding: 4px 12px; border-radius: 20px; width: fit-content;}
+  .service h3{font-size:20px; color:var(--navy); font-weight:700;}
+  .service p{font-size:15px; color:#556660; margin-top:12px;}
+
+  /* ---- stats modificados ---- */
+  .stats{
+    background:var(--navy); 
+    color:#fff; 
+    padding: 80px 28px;
+  }
+  .stats-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    border: 2px solid var(--mint); 
+    border-radius: 20px;
+    padding: 50px 20px;
+    position: relative;
+  }
+  .stats-container::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px solid var(--mint);
+    opacity: 0.35;
+    border-radius: 12px;
+    pointer-events: none;
+  }
+  .stats-grid {
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px; 
+    text-align: center; 
+    position: relative;
+    z-index: 1;
+  }
+  .stat b{font-size:clamp(40px,4.5vw,56px); font-weight:900; display:block; color: var(--mint); line-height: 1.1;}
+  .stat span{font-size:15px; color:#E0EAE5; display:block; margin-top:8px; font-weight: 500;}
+
+  /* ---- about ---- */
+  .about .wrap{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;}
+  .about p{color:#445550; font-size:16px; margin-top:16px;}
+  .clients{margin-top:28px; font-size:14px; color:#667770; background: var(--bg-light); padding: 16px 20px; border-radius: 12px;}
+  .clients b{color:var(--navy); font-weight:700;}
+  .seal{width:140px; height:140px; margin:0 auto;}
+
+  /* ---- quote / upload ---- */
+  .quote{background:var(--navy); color:#FFF;}
+  .quote .section-lede{color:#A9BAB2;}
+  .quote h2{color:#fff;}
+  .quote-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; margin-top:40px; align-items:flex-start;}
+  
+  .dropzone{
+    border:2px dashed rgba(168, 230, 207, 0.3); border-radius:var(--radius-cards);
+    padding:40px 24px; text-align:center; background:rgba(255,255,255,.02);
+    transition:all .2s;
+  }
+  .dropzone.drag{border-color:var(--mint); background:rgba(168, 230, 207, 0.05);}
+  .dropzone svg{width:40px; height:40px; margin-bottom:16px; color:var(--mint);}
+  .dropzone p{margin:0; font-size:15px; color:#D9E9E4;}
+  .dropzone .browse{color:var(--mint); text-decoration:underline; cursor:pointer; font-weight: 500;}
+  
+  #filelist{list-style:none; padding:0; margin:20px 0 0; text-align:left; font-size:14px;}
+  #filelist li{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 16px; background:rgba(255,255,255,.06); border-radius:10px; margin-bottom:8px;
+  }
+  #filelist button{background:none; border:none; color:#C9D6D2; font-size:18px; cursor: pointer;}
+  #filelist button:hover{color:#fff;}
+  .file-note{font-size:13px; color:#8FA39B; margin-top:14px;}
+
+  form.qform{display:flex; flex-direction:column; gap:16px;}
+  .qform label{font-size:13px; font-weight: 600; color:#A9BAB2; display:block; margin-bottom:6px;}
+  .qform input, .qform select, .qform textarea{
+    width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15);
+    color:#fff; padding:14px 16px; border-radius:10px; font-family:inherit; font-size:15px;
+    transition: border-color 0.2s;
+  }
+  .qform input:focus, .qform select:focus, .qform textarea:focus{
+    outline:none; border-color:var(--mint); background: rgba(255,255,255,0.08);
+  }
+  
+  /* FIX: Evita que las opciones desplegables del select se vean blancas en Windows/Mac */
+  .qform select option {
+    background-color: var(--navy);
+    color: #FFFFFF;
+  }
+
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .qform textarea{resize:vertical; min-height:100px;}
+  .submit-btn{margin-top:10px; align-self:flex-start;}
+
+  /* ---- footer ---- */
+  footer{background:var(--navy-2); color:#C9D6D2; padding:60px 0 30px;}
+  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px;}
+  footer h3{color:#fff; font-size:16px; margin-bottom:16px; font-weight:700;}
+  footer p, footer a{font-size:14px; color:#A9BAB2; text-decoration:none; transition: color 0.2s;}
+  footer a:hover {color: #FFF;}
+  footer .brand-name{color:#fff; font-size: 22px; font-weight: 900;}
+  .foot-list{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px;}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.05); margin-top:50px; padding-top:24px; font-size:13px; color:#7C8C84; text-align:center;}
+
+  /* ---- Estilos Responsivos (Móvil) ---- */
+  @media (max-width:880px){
+    nav a.menu-link, header .nav-cta{display:none;}
+    nav .lang-toggle{display:none;}
+    #menuBtn{display:flex;}
+    .hero-inner{padding-top: 40px; padding-bottom: 60px;}
+    .hero-ctas{flex-direction: column; width: 100%;}
+    .btn-primary, .btn-ghost {width: 100%;}
+    
+    .service-grid{grid-template-columns:1fr 1fr; gap: 16px;}
+    
+    .stats-grid {grid-template-columns:1fr 1fr; gap: 40px;}
+    .stats-container {padding: 40px 20px;}
+    
+    .about .wrap{grid-template-columns:1fr; gap: 40px;}
+    .quote-grid{grid-template-columns:1fr; gap: 40px;}
+    .foot-grid{grid-template-columns:1fr; gap:30px;}
+    .row2{grid-template-columns:1fr;}
+    
+    section{padding:50px 0;}
+    .services .section-head h2 { font-size: 28px; }
+  }
+
+  @media (max-width:560px){
+    .service-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body class="lang-es">
+
+<div id="discountbar">
+  <span class="es"><b>20% de descuento</b> en tu primer proyecto — mencionalo al pedir tu presupuesto.</span>
+  <span class="en"><b>20% discount</b> on your first project — mention it when requesting your quote.</span>
+  <button class="close" id="closeBar" aria-label="Close">×</button>
+</div>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 40 40" fill="none"><path d="M20 3C11 3 4 10 4 19c0 6 3.4 11.2 8.5 14.3L11 37l6.3-2.3C18.7 34.9 20 35 20 35c9 0 16-7 16-16S29 3 20 3Z" stroke="#164B3B" stroke-width="2"/><path d="M12 19c0-6 3.6-11 8-13m8 13c0 6-3.6 11-8 13M4 19h32M12 19c0 6 3.6 11 8 13m8-26c4.4 2 8 7 8 13" stroke="#2A7A66" stroke-width="1.5"/></svg>
+    <div>
+      <span class="brand-name">Polyglot Hub</span>
+      <span class="brand-sub es">Traducciones públicas &amp; localización</span>
+      <span class="brand-sub en">Certified Translations &amp; Localization</span>
+    </div>
+  </div>
+  <div class="navwrap">
+    <nav>
+      <a href="#servicios" class="menu-link es">Servicios</a>
+      <a href="#servicios" class="menu-link en">Services</a>
+      <a href="#trayectoria" class="menu-link es">Trayectoria</a>
+      <a href="#trayectoria" class="menu-link en">Experience</a>
+      <a href="#contacto" class="menu-link es">Contacto</a>
+      <a href="#contacto" class="menu-link en">Contact</a>
+      <button class="lang-toggle" id="langSwitch">EN</button>
+    </nav>
+    <a class="nav-cta es" href="#presupuesto">Solicitar presupuesto</a>
+    <a class="nav-cta en" href="#presupuesto">Request quote</a>
+    <button id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="#servicios" class="es">Servicios</a>
+  <a href="#servicios" class="en">Services</a>
+  <a href="#trayectoria" class="es">Trayectoria</a>
+  <a href="#trayectoria" class="en">Experience</a>
+  <a href="#contacto" class="es">Contacto</a>
+  <a href="#contacto" class="en">Contact</a>
+  <button class="lang-toggle" id="langSwitchMobile">EN</button>
+  <a class="nav-cta es" href="#presupuesto">Solicitar presupuesto</a>
+  <a class="nav-cta en" href="#presupuesto">Request quote</a>
+</nav>
+
+<section class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-inner">
+    <h1 class="es">Tu texto, fiel en cualquier idioma.</h1>
+    <h1 class="en">Your text, faithful in any language.</h1>
+    
+    <p class="lede es">Traductora pública inglés–español con más de 15 años de trayectoria. Más de 300 proyectos entregados para agencias y corporaciones internacionales, con foco en precisión terminológica.</p>
+    <p class="lede en">Certified English-Spanish translator with over 15 years of experience. More than 300 projects delivered to agencies and global corporations, focusing on terminological precision.</p>
+    
+    <div class="hero-ctas">
+      <a class="btn-primary es" href="#presupuesto">Subir documento y cotizar</a>
+      <a class="btn-primary en" href="#presupuesto">Upload document & get quote</a>
+      <a class="btn-ghost es" href="#servicios">Ver especialidades</a>
+      <a class="btn-ghost en" href="#servicios">View specialties</a>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="servicios">
+  <div class="wrap eyebrow-free">
+    <div class="section-head">
+      <h2 class="es">Especialidades que cubro de punta a punta</h2>
+      <h2 class="en">Specialties covered end-to-end</h2>
+      <p class="section-lede es">Cada área tiene su propio vocabulario. Trabajo con herramientas CAT (Trados, MemoQ, MateCat) para mantener la terminología consistente en proyectos largos.</p>
+      <p class="section-lede en">Every field has its own vocabulary. I work with CAT tools (Trados, MemoQ, MateCat) to maintain consistent terminology in long projects.</p>
+    </div>
+    <div class="service-grid">
+      <div class="service">
+        <span class="num">01</span>
+        <h3 class="es">Legal</h3><h3 class="en">Legal</h3>
+        <p class="es">Contratos, poderes, sentencias y documentación con validez de traducción pública.</p>
+        <p class="en">Contracts, powers of attorney, rulings, and documents requiring certified translation.</p>
+      </div>
+      <div class="service">
+        <span class="num">02</span>
+        <h3>IT &amp; Software</h3>
+        <p class="es">Localización de interfaces, manuales técnicos y documentación de producto.</p>
+        <p class="en">UI localization, technical manuals, and product documentation.</p>
+      </div>
+      <div class="service">
+        <span class="num">03</span>
+        <h3 class="es">Marketing</h3><h3 class="en">Marketing</h3>
+        <p class="es">Sitios web, campañas y contenido de marca adaptado al público de destino.</p>
+        <p class="en">Websites, campaigns, and brand content adapted to the target audience.</p>
+      </div>
+      <div class="service">
+        <span class="num">04</span>
+        <h3 class="es">Negocios</h3><h3 class="en">Business</h3>
+        <p class="es">Informes, presentaciones y comunicación corporativa entre equipos internacionales.</p>
+        <p class="en">Reports, presentations, and corporate communications across international teams.</p>
+      </div>
+      <div class="service">
+        <span class="num">05</span>
+        <h3 class="es">Educativo</h3><h3 class="en">Education</h3>
+        <p class="es">Material académico, programas de estudio y papers para instituciones.</p>
+        <p class="en">Academic material, syllabi, and papers for educational institutions.</p>
+      </div>
+      <div class="service">
+        <span class="num">06</span>
+        <h3 class="es">Médico</h3><h3 class="en">Medical</h3>
+        <p class="es">Documentación clínica y de negocio del sector salud, con revisión terminológica.</p>
+        <p class="en">Clinical and business documentation for the healthcare sector, with terminological review.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-container">
+    <div class="stats-grid">
+      <div class="stat"><b>300+</b><span class="es">proyectos entregados</span><span class="en">projects delivered</span></div>
+      <div class="stat"><b>15+</b><span class="es">años de trayectoria</span><span class="en">years of experience</span></div>
+      <div class="stat"><b>98%</b><span class="es">satisfacción IT/legales</span><span class="en">IT/Legal satisfaction</span></div>
+      <div class="stat"><b>8</b><span class="es">áreas de especialización</span><span class="en">areas of expertise</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="trayectoria">
+  <div class="wrap">
+    <div>
+      <h2 class="es">Alejandra Len, traductora pública inglés–español</h2>
+      <h2 class="en">Alejandra Len, Certified English-Spanish Translator</h2>
+      
+      <p class="es">Fundadora de Polyglot Hub desde 2009. Trabajé de forma sostenida con agencias internacionales, además de clientes privados en las ramas de legales, negocios, marketing, manuales técnicos y e-commerce.</p>
+      <p class="en">Founder of Polyglot Hub since 2009. I have worked consistently with international agencies and private clients in legal, business, marketing, technical manuals, and e-commerce fields.</p>
+      
+      <p class="es">Ofrezco traducción, revisión, edición, internacionalización, localización, voice over e interpretación por Zoom.</p>
+      <p class="en">I provide translation, proofreading, editing, internationalization, localization, voice-over, and Zoom interpretation services.</p>
+      
+      <div class="clients"><b class="es">Algunos clientes: </b><b class="en">Some clients: </b> Logoscript (Microsoft), UBA, TechNova, GlobalCorp Solutions, NexaHealth, Lumina Group, Apex Financial.</div>
+    </div>
+    <svg class="seal" viewBox="0 0 150 150"><circle cx="75" cy="75" r="70" fill="none" stroke="#2A7A66" stroke-width="2"/><circle cx="75" cy="75" r="58" fill="none" stroke="#A8E6CF" stroke-width="1.5"/><text class="es" x="75" y="70" text-anchor="middle" font-family="'Roboto',sans-serif" font-weight="700" font-size="16" fill="#112233">Traductora</text><text class="es" x="75" y="90" text-anchor="middle" font-family="'Roboto',sans-serif" font-weight="700" font-size="16" fill="#112233">Pública</text><text class="en" x="75" y="70" text-anchor="middle" font-family="'Roboto',sans-serif" font-weight="700" font-size="16" fill="#112233">Certified</text><text class="en" x="75" y="90" text-anchor="middle" font-family="'Roboto',sans-serif" font-weight="700" font-size="16" fill="#112233">Translator</text></svg>
+  </div>
+</section>
+
+<section class="quote" id="presupuesto">
+  <div class="wrap">
+    <div class="section-head eyebrow-free">
+      <h2 class="es">Pedí tu presupuesto</h2>
+      <h2 class="en">Request your quote</h2>
+      <p class="section-lede es" style="color: #A9BAB2;">Subí el documento a traducir y contame los detalles del proyecto. Te respondo con el presupuesto y el plazo estimado.</p>
+      <p class="section-lede en" style="color: #A9BAB2;">Upload the document and share the project details. I will get back to you with a quote and estimated timeframe.</p>
+    </div>
+    <div class="quote-grid">
+      <div>
+        <div class="dropzone" id="dropzone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <p class="es">Arrastrá tus archivos acá o <span class="browse" id="browseBtn">elegilos manualmente</span></p>
+          <p class="en">Drag your files here or <span class="browse" id="browseBtn">choose them manually</span></p>
+          <input type="file" id="fileInput" multiple style="display:none">
+        </div>
+        <ul id="filelist"></ul>
+        <p class="file-note es">Los archivos se listan acá para armar tu solicitud. Al enviar el formulario se abre tu correo — adjuntalos ahí antes de enviarlo.</p>
+        <p class="file-note en">Files are listed here to build your request. When you submit, your email client will open — attach them there before sending.</p>
+      </div>
+      <form class="qform" id="quoteForm">
+        <div class="row2">
+          <div>
+            <label class="es" for="name">Nombre</label><label class="en" for="name">Name</label>
+            <input id="name" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" required>
+          </div>
+        </div>
+        <div class="row2">
+          <div>
+            <label class="es" for="langs">Idiomas</label><label class="en" for="langs">Languages</label>
+            <select id="langs">
+              <option class="es">Inglés → Español</option><option class="en">English → Spanish</option>
+              <option class="es">Español → Inglés</option><option class="en">Spanish → English</option>
+            </select>
+          </div>
+          <div>
+            <label class="es" for="area">Área</label><label class="en" for="area">Field</label>
+            <select id="area">
+              <option class="es">Legal</option><option class="en">Legal</option>
+              <option>IT / Software</option>
+              <option>Marketing</option>
+              <option class="es">Negocios</option><option class="en">Business</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="es" for="msg">Contame sobre tu proyecto</label><label class="en" for="msg">Tell me about your project</label>
+          <textarea id="msg" class="es" placeholder="Extensión, plazo, si necesitás traducción pública, etc."></textarea>
+          <textarea id="msgEn" class="en" placeholder="Word count, deadline, certification needs, etc."></textarea>
+        </div>
+        <button type="submit" class="submit-btn"><span class="es">Enviar solicitud</span><span class="en">Send request</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer id="contacto">
+  <div class="wrap foot-grid">
+    <div>
+      <span class="brand-name">Polyglot Hub</span>
+      <p class="es" style="margin-top:12px; max-width:32ch;">Traducción pública inglés–español, localización e interpretación. Con base en Villa Elisa, Buenos Aires.</p>
+      <p class="en" style="margin-top:12px; max-width:32ch;">Certified English-Spanish translation, localization, and interpretation. Based in Villa Elisa, Buenos Aires.</p>
+    </div>
+    <div>
+      <h3 class="es">Contacto</h3><h3 class="en">Contact</h3>
+      <ul class="foot-list">
+        <li><a href="mailto:len.alejandra@gmail.com">len.alejandra@gmail.com</a></li>
+        <li><a href="tel:+5492216376757">+54 9 221 6376757</a></li>
+        <li>Villa Elisa (1894), Buenos Aires</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">© 2026 Polyglot Hub — Alejandra Len.</div>
+</footer>
+
+<script>
+(function(){
+  // --- Toggle Bilingüe ---
+  var langBtn = document.getElementById('langSwitch');
+  var langBtnMobile = document.getElementById('langSwitchMobile');
+  var body = document.body;
+  function toggleLang(){
+    if(body.classList.contains('lang-es')){
+      body.classList.replace('lang-es', 'lang-en');
+      langBtn.textContent = 'ES';
+      langBtnMobile.textContent = 'ES';
+    } else {
+      body.classList.replace('lang-en', 'lang-es');
+      langBtn.textContent = 'EN';
+      langBtnMobile.textContent = 'EN';
+    }
+  }
+  langBtn.addEventListener('click', toggleLang);
+  langBtnMobile.addEventListener('click', toggleLang);
+
+  // --- Barra de descuento ---
+  var discountBar = document.getElementById('discountbar');
+  document.getElementById('closeBar').addEventListener('click', function(){
+    discountBar.style.display = 'none';
+  });
+
+  // --- Menú mobile ---
+  var menuBtn = document.getElementById('menuBtn');
+  var mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', function(){
+    var isOpen = mobileMenu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    menuBtn.textContent = isOpen ? '✕' : '☰';
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.textContent = '☰';
+    });
+  });
+
+  // --- Animación Canvas ---
+  var canvas = document.getElementById('heroCanvas');
+  var ctx = canvas.getContext('2d');
+  
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.querySelector('.hero').offsetHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*<>/{}[];";
+  letters = letters.split("");
+  var fontSize = 14;
+  var columns = canvas.width / fontSize;
+  var drops = [];
+  for(var x = 0; x < columns; x++) drops[x] = 1;
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(15, 27, 36, 0.1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = "#4A6B63"; 
+    ctx.font = fontSize + "px monospace";
+    
+    for(var i = 0; i < drops.length; i++){
+      var text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  // Animación optimizada con IntersectionObserver
+  var matrixTimer = null;
+  function startMatrix(){ if(!matrixTimer) matrixTimer = setInterval(drawMatrix, 45); }
+  function stopMatrix(){ if(matrixTimer){ clearInterval(matrixTimer); matrixTimer = null; } }
+
+  if('IntersectionObserver' in window){
+    var heroObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting) startMatrix(); else stopMatrix();
+      });
+    }, { threshold: 0 });
+    heroObserver.observe(document.querySelector('.hero'));
+  } else {
+    startMatrix();
+  }
+
+  // --- Archivos Drag & Drop ---
+  var dz = document.getElementById('dropzone');
+  var input = document.getElementById('fileInput');
+  var list = document.getElementById('filelist');
+  var files = [];
+
+  document.getElementById('browseBtn').addEventListener('click', function(){ input.click(); });
+  dz.addEventListener('click', function(e){ if(e.target.id!=='browseBtn') input.click(); });
+  input.addEventListener('change', function(e){ addFiles(e.target.files); });
+
+  ['dragenter','dragover'].forEach(function(ev){ dz.addEventListener(ev, function(e){ e.preventDefault(); dz.classList.add('drag'); }); });
+  ['dragleave','drop'].forEach(function(ev){ dz.addEventListener(ev, function(e){ e.preventDefault(); dz.classList.remove('drag'); }); });
+  dz.addEventListener('drop', function(e){ addFiles(e.dataTransfer.files); });
+
+  function addFiles(fileListObj){
+    Array.prototype.forEach.call(fileListObj, function(f){ files.push(f); });
+    renderFiles();
+  }
+  function renderFiles(){
+    list.innerHTML = '';
+    files.forEach(function(f, i){
+      var li = document.createElement('li');
+      var kb = (f.size/1024).toFixed(0);
+      li.innerHTML = '<span>'+f.name+' · '+kb+' KB</span><button type="button">×</button>';
+      li.querySelector('button').addEventListener('click', function(){ files.splice(i,1); renderFiles(); });
+      list.appendChild(li);
+    });
+  }
+
+  // --- Enviar a mailto ---
+  document.getElementById('quoteForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var isEn = document.body.classList.contains('lang-en');
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var langs = document.getElementById('langs').value;
+    var area = document.getElementById('area').value;
+    var msg = isEn ? document.getElementById('msgEn').value : document.getElementById('msg').value;
+    var fileNames = files.map(function(f){ return f.name; }).join(', ') || (isEn ? 'none selected' : 'ninguno seleccionado');
+
+    var subject = (isEn ? 'Quote Request — ' : 'Solicitud de presupuesto — ') + name;
+    var body = 'Nombre/Name: ' + name + '\nEmail: ' + email + '\nIdiomas/Langs: ' + langs + '\nArea: ' + area + '\nArchivos/Files: ' + fileNames + '\n\nDetalles:\n' + msg;
+    
+    window.location.href = 'mailto:len.alejandra@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  });
+})();
+</script>
+</body>
+</html>
